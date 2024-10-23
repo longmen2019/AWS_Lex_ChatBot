@@ -3,11 +3,12 @@ import {
   endConversation,
   invokeDialogCodeHook,
   startIntent,
-  utterances,
-} from "../../Bot/botUtils.js"
-import { Intent, Slot } from "../../Bot/types.js"
-import sampleUtterances from "./utterances.js"
-import { checkInDate, location, nights, roomType } from "./slots.js"
+  utterances
+} from "../../Bot/botUtils.js";
+import { Intent, Slot } from "../../Bot/types.js";
+import sampleUtterances from "./utterances.js";
+import { checkInDate, location, nights, roomType } from "./slots.js";
+
 const intent: Intent = {
   intentName: "BookHotel",
   description: "Intent to book a hotel",
@@ -31,8 +32,7 @@ const intent: Intent = {
         {
           message: {
             plainTextMessage: {
-              value:
-                "Okay, I have you down for a {Nights} night stay in {Location} starting {CheckInDate}.  Shall I book the reservation?",
+              value: "Okay, I have you down for a {Nights} night stay in {Location} starting {CheckInDate}. Shall I book the reservation?",
             },
           },
         },
@@ -54,9 +54,8 @@ const intent: Intent = {
     },
     failureNextStep: startIntent("FallbackIntent"),
   },
-}
+};
 
-export default {
-  intent,
-  slots: [location, checkInDate, nights, roomType] as Slot[],
-}
+const slots: Slot[] = [location, checkInDate, nights, roomType];
+
+export default { intent, slots };

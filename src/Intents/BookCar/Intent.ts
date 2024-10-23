@@ -2,17 +2,18 @@ import {
   elicitSlot,
   endConversation,
   startIntent,
-  utterances,
-} from "../../Bot/botUtils.js"
-import { Intent, Slot } from "../../Bot/types.js"
+  utterances
+} from "../../Bot/botUtils.js";
+import { Intent, Slot } from "../../Bot/types.js";
 import {
   carType,
   driverAge,
   pickupCity,
   pickupDate,
-  returnDate,
-} from "./slots.js"
-import sampleUtterances from "./utterances.js"
+  returnDate
+} from "./slots.js";
+import sampleUtterances from "./utterances.js";
+
 const intent: Intent = {
   intentName: "BookCar",
   description: "Intent to book a car",
@@ -26,8 +27,7 @@ const intent: Intent = {
         {
           message: {
             plainTextMessage: {
-              value:
-                "Okay, I have you down for a {CarType} rental in {PickUpCity} from {PickUpDate} to {ReturnDate}.  Should I book the reservation?",
+              value: "Okay, I have you down for a {CarType} rental in {PickUpCity} from {PickUpDate} to {ReturnDate}. Should I book the reservation?",
             },
           },
         },
@@ -49,9 +49,8 @@ const intent: Intent = {
     },
     failureNextStep: startIntent("FallbackIntent"),
   },
-}
+};
 
-export default {
-  intent,
-  slots: [pickupCity, pickupDate, returnDate, driverAge, carType] as Slot[],
-}
+const slots: Slot[] = [pickupCity, pickupDate, returnDate, driverAge, carType];
+
+export default { intent, slots };
