@@ -1,16 +1,10 @@
-import { DialogActionType } from "@aws-sdk/client-lex-models-v2"
-import {
-  confirmIntent,
-  elicitIntent,
-  elicitSlot,
-  startIntent,
-} from "../../Bot/botUtils.js"
-import { Slot } from "../../Bot/types.js"
+import { confirmIntent, elicitSlot, startIntent } from "../../Bot/botUtils.js";
+import { Slot } from "../../Bot/types.js";
 
-export const carType: Slot = {
-  slotName: "CarType",
-  slotTypeName: "CarTypeValues",
-  description: "Type of car being reserved.",
+export const departureCity: Slot = {
+  slotName: "DepartureCity",
+  slotTypeName: "DepartureCityValues",  // Assuming this is defined in SlotTypes
+  description: "The city from which the flight departs.",
   priority: 1,
   valueElicitationSetting: {
     slotConstraint: "Required",
@@ -19,26 +13,25 @@ export const carType: Slot = {
         {
           message: {
             plainTextMessage: {
-              value:
-                "What type of car would you like to rent?  Our most popular options are economy, midsize, and luxury",
+              value: "What city are you departing from?",
             },
           },
         },
       ],
-      maxRetries: 5,
+      maxRetries: 3,
     },
     slotCaptureSetting: {
       captureNextStep: confirmIntent(),
       failureNextStep: startIntent("FallbackIntent"),
     },
   },
-}
+};
 
-export const driverAge: Slot = {
-  slotName: "DriverAge",
-  slotTypeName: "AMAZON.Number",
-  description: "Age of the driver during the car rental.",
-  priority: 1,
+export const departureDate: Slot = {
+  slotName: "DepartureDate",
+  slotTypeName: "AMAZON.Date",
+  description: "The date of departure.",
+  priority: 2,
   valueElicitationSetting: {
     slotConstraint: "Required",
     promptSpecification: {
@@ -46,26 +39,25 @@ export const driverAge: Slot = {
         {
           message: {
             plainTextMessage: {
-              value: "How old is the driver for this rental?",
+              value: "When do you want to depart?",
             },
           },
         },
       ],
-      maxRetries: 5,
+      maxRetries: 3,
     },
     slotCaptureSetting: {
-      captureNextStep: elicitSlot(carType),
+      captureNextStep: elicitSlot(departureCity),
       failureNextStep: startIntent("FallbackIntent"),
     },
   },
-}
+};
 
 export const returnDate: Slot = {
   slotName: "ReturnDate",
   slotTypeName: "AMAZON.Date",
-  description:
-    "Date of return.  Should be required when the flight is not one way.",
-  priority: 1,
+  description: "The date of return.",
+  priority: 3,
   valueElicitationSetting: {
     slotConstraint: "Required",
     promptSpecification: {
@@ -73,25 +65,25 @@ export const returnDate: Slot = {
         {
           message: {
             plainTextMessage: {
-              value: "What day do you want to return the car?",
+              value: "When will you be returning?",
             },
           },
         },
       ],
-      maxRetries: 5,
+      maxRetries: 3,
     },
     slotCaptureSetting: {
-      captureNextStep: elicitSlot(driverAge),
+      captureNextStep: elicitSlot(departureDate),
       failureNextStep: startIntent("FallbackIntent"),
     },
   },
-}
+};
 
-export const pickupDate: Slot = {
-  slotName: "PickUpDate",
-  slotTypeName: "AMAZON.Date",
-  description: "Date to start the rental",
-  priority: 1,
+export const passengerCount: Slot = {
+  slotName: "PassengerCount",
+  slotTypeName: "PassengerCountValues",  // Assuming this is defined in SlotTypes
+  description: "The number of passengers traveling.",
+  priority: 4,
   valueElicitationSetting: {
     slotConstraint: "Required",
     promptSpecification: {
@@ -99,25 +91,25 @@ export const pickupDate: Slot = {
         {
           message: {
             plainTextMessage: {
-              value: "What day do you want to start your rental?",
+              value: "How many passengers are traveling?",
             },
           },
         },
       ],
-      maxRetries: 5,
+      maxRetries: 3,
     },
     slotCaptureSetting: {
-      captureNextStep: elicitSlot(returnDate),
+      captureNextStep: confirmIntent(),
       failureNextStep: startIntent("FallbackIntent"),
     },
   },
-}
+};
 
-export const pickupCity: Slot = {
-  slotName: "PickUpCity",
-  slotTypeName: "AMAZON.City",
-  description: "City in which the car reservation is being made",
-  priority: 1,
+export const arrivalCity: Slot = {
+  slotName: "ArrivalCity",
+  slotTypeName: "ArrivalCityValues",  // Assuming this is defined in SlotTypes
+  description: "The city to which the flight is arriving.",
+  priority: 5,
   valueElicitationSetting: {
     slotConstraint: "Required",
     promptSpecification: {
@@ -125,16 +117,16 @@ export const pickupCity: Slot = {
         {
           message: {
             plainTextMessage: {
-              value: "In what city do you need to rent a car?",
+              value: "What city are you arriving in?",
             },
           },
         },
       ],
-      maxRetries: 5,
+      maxRetries: 3,
     },
     slotCaptureSetting: {
-      captureNextStep: elicitSlot(pickupDate),
+      captureNextStep: elicitSlot(passengerCount),
       failureNextStep: startIntent("FallbackIntent"),
     },
   },
-}
+};
